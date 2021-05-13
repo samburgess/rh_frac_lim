@@ -88,8 +88,8 @@ class LoginAuth(Frame):
             otp = ""
             with open('user.txt', 'r') as f:
                 otp = f.read()
-            print(otp)
-            login = rh.login(self.userIn.get(), self.passIn.get(), mfa_code=str(otp))
+                totp  = pyotp.TOTP(otp).now()
+                rh.login(self.userIn.get(), self.passIn.get(), mfa_code=totp)
             master.switch_frame(Session, self.userIn.get())
 
         except Exception as e:
